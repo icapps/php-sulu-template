@@ -1,7 +1,15 @@
 {
   "commit-msg": {
     "enabled": true,
-    "actions": []
+    "actions": [
+      {
+        "action": "\\CaptainHook\\App\\Hook\\Message\\Action\\Beams",
+        "options": {
+          "subjectLength": 70,
+          "bodyLineLength": 80
+        }
+      }
+    ]
   },
   "pre-push": {
     "enabled": false,
@@ -18,11 +26,11 @@
         "options": [],
         "conditions": []
       },
-        {
-          "action": "symfony/vendor/bin/phpcs --standard=PSR2 --colors --exclude=Generic.Files.LineLength symfony/src/",
-          "options": [],
-          "conditions": []
-        },
+      {
+        "action": "symfony/vendor/bin/phpcs --standard=PSR2 --colors --exclude=Generic.Files.LineLength symfony/src/",
+        "options": [],
+        "conditions": []
+      },
       {
         "action": "symfony/vendor/bin/phpstan analyse symfony/src -c symfony/phpstan.neon --memory-limit=-1",
         "options": [],
@@ -30,6 +38,11 @@
       },
       {
         "action": "symfony/vendor/bin/xmllint symfony/config -v",
+        "options": [],
+        "conditions": []
+      },
+      {
+        "action": "symfony/vendor/bin/yaml-lint symfony/config -v",
         "options": [],
         "conditions": []
       }
