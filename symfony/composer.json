@@ -1,0 +1,132 @@
+{
+    "name": "icapps/sulu-symfony-template",
+    "license": "MIT",
+    "type": "project",
+    "description": "Sulu Symfony template project",
+    "keywords": [
+        "symfony",
+        "sulu",
+        "sulucms",
+        "cms",
+        "web-application",
+        "platform",
+        "data-managment",
+        "project-template",
+        "headless"
+    ],
+    "authors": [],
+    "support": {
+        "issues": "https://github.com/sulu/skeleton/issues",
+        "source": "https://github.com/sulu/skeleton",
+        "docs": "http://docs.sulu.io/"
+    },
+    "require": {
+        "php": "^7.2",
+        "ext-amqp": "*",
+        "ext-bcmath": "*",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-redis": "*",
+        "dantleech/phpcr-migrations-bundle": "^1.2",
+        "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "doctrine/doctrine-migrations-bundle": "^3.0",
+        "elasticsearch/elasticsearch": "^7.10",
+        "friendsofsymfony/http-cache-bundle": "^2.8",
+        "friendsofsymfony/rest-bundle": "^3.0",
+        "handcraftedinthealps/zendsearch": "^2.0",
+        "jackalope/jackalope-doctrine-dbal": "^1.3",
+        "league/flysystem": "^1.1",
+        "league/flysystem-aws-s3-v3": "1.0.24",
+        "predis/predis": "^1.1",
+        "snc/redis-bundle": "^3.3",
+        "sulu/sulu": "~2.2.4",
+        "symfony/amqp-messenger": "^5.1",
+        "symfony/cache": "^5.1",
+        "symfony/config": "^5.1",
+        "symfony/dotenv": "^5.1",
+        "symfony/flex": "^1.2",
+        "symfony/framework-bundle": "^5.1",
+        "symfony/http-client": "^5.1",
+        "symfony/mailer": "^5.1",
+        "symfony/mailgun-mailer": "^5.1",
+        "symfony/monolog-bridge": "^5.1",
+        "symfony/monolog-bundle": "^3.1",
+        "symfony/security-bundle": "^5.1",
+        "symfony/serializer": "^5.1",
+        "symfony/twig-bundle": "^5.1",
+        "symfony/validator": "^5.1",
+        "symfony/webpack-encore-bundle": "^1.7",
+        "twig/extra-bundle": "^3.0",
+        "twig/intl-extra": "^3.1"
+    },
+    "require-dev": {
+        "captainhook/captainhook": "^5.4",
+        "phpcr/phpcr-shell": "^1.2",
+        "phpstan/phpstan": "^0.12.47",
+        "sclable/xml-lint": "^0.3.0",
+        "squizlabs/php_codesniffer": "^3.5",
+        "symfony/debug-bundle": "^5.1",
+        "symfony/error-handler": "^5.1",
+        "symfony/maker-bundle": "^1.26",
+        "symfony/phpunit-bridge": "^5.1",
+        "symfony/thanks": "^1.1",
+        "symfony/var-dumper": "^5.1",
+        "symfony/web-profiler-bundle": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "paragonie/random_compat": "2.*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php56": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR% --symlink --relative": "symfony-cmd",
+            "bin/websiteconsole cache:clear": "php-script",
+            "bin/adminconsole sulu:media:init": "php-script",
+            "bin/adminconsole massive:search:init": "php-script",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "post-root-package-install": [
+            "php -r \"file_put_contents('.env.local', 'APP_ENV=dev' . PHP_EOL);\"",
+            "php -r \"file_put_contents('.env', str_replace('APP_SECRET=', 'APP_SECRET=' . bin2hex(random_bytes(16)), file_get_contents('.env')));\""
+        ],
+        "post-create-project-cmd": [
+            "php -r \"file_put_contents('.gitignore', str_replace(['composer.lock' . PHP_EOL, 'symfony.lock' . PHP_EOL, 'package-lock.json' . PHP_EOL], ['', '', ''], file_get_contents('.gitignore')));\""
+        ],
+        "post-autoload-dump": [
+            "[ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/captainhook install"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": true
+        }
+    }
+}
