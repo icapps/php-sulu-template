@@ -8,7 +8,7 @@ use App\Repository\RideRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints\MinimalProperties;
+use App\Validator\Constraints\LocationMinimalProperties;
 
 /**
  * @ApiResource(
@@ -22,8 +22,14 @@ use App\Validator\Constraints\MinimalProperties;
  *         "patch"
  *     },
  *     shortName="rides",
- *     normalizationContext={"groups"={"rides:api-get"}, "swagger_definition_name"="GET"},
- *     denormalizationContext={"groups"={"rides:api-write"}, "swagger_definition_name"="WRITE"},
+ *     normalizationContext={
+ *          "groups"={"rides:api-get"},
+ *          "swagger_definition_name"="GET"
+ *     },
+ *     denormalizationContext={
+ *          "groups"={"rides:api-write"},
+ *          "swagger_definition_name"="WRITE"
+ *     },
  * )
  * @ORM\Table(name="icapps_rides")
  * @ORM\Entity(repositoryClass=RideRepository::class)
@@ -39,8 +45,8 @@ class Ride
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank
      * @Groups({"rides:api-get", "rides:api-write"})
+     * @Assert\NotBlank
      * @ApiProperty(
      *     attributes={
      *         "openapi_context"={
@@ -55,15 +61,15 @@ class Ride
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank
      * @Groups({"rides:api-get", "rides:api-write"})
+     * @Assert\NotBlank
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank
      * @Groups({"rides:api-get", "rides:api-write"})
+     * @Assert\NotBlank
      */
     private $endDate;
 
@@ -79,14 +85,24 @@ class Ride
     private $pickupStreetNumber;
 
     /**
-     * @ORM\Column(type="json")
-     * @Assert\NotBlank
-     * @MinimalProperties()
+     * @ORM\Column(type="array")
      * @Groups({"rides:api-get", "rides:api-write"})
+     * @Assert\NotBlank
+     * @LocationMinimalProperties()
+     * @ApiProperty(
+     *     attributes={
+     *         "openapi_context"={
+     *             "type"="object",
+     *             "required"={"lat", "lon"},
+     *             "properties"={
+     *                  "lat"={"type"="float", "example"="50.12345"},
+     *                  "lon"={"type"="float", "example"="4.12345"}
+     *             }
+     *        }
+     *    }
+     * )
      */
-    // @TODO:: lat/lon required object properties.
     // @TODO:: customize error messages in API.
-    // @TODO:: enforce json instead of json.ld
     private $startLocation;
 
     /**

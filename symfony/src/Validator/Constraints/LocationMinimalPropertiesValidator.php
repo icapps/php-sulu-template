@@ -8,7 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 /**
  * @Annotation
  */
-final class MinimalPropertiesValidator extends ConstraintValidator
+final class LocationMinimalPropertiesValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint): void
     {
